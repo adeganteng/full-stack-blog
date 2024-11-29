@@ -9,6 +9,7 @@ const ImageKit = ({ src, className, width, height, alt }) => {
       width={width}
       height={height}
       alt={alt}
+      loading="lazy"
       lqip={{
         active: true,
         quality: 20,
