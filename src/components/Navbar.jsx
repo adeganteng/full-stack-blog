@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import ImageKit from "./ImageKit";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -7,7 +8,7 @@ const Navbar = () => {
     <div className="w-full h-16 md:h-20 flex items-center justify-between">
       {/* Logo */}
       <div className="flex items-center gap-2 text-2xl font-bold">
-        <img src="/fox-logo.png" className="w-8 h-8" alt="" />
+        <ImageKit src={"fox-logo.png"} width={30} height={30} alt="Logo" />
         <span>adefxlog.</span>
       </div>
       {/* Mobile Menu */}
