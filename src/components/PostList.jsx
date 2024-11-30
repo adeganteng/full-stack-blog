@@ -7,7 +7,11 @@ const PostList = () => {
     <div className="flex flex-col xl:flex-row gap-8 mb-8">
       {/* Image */}
       <div className="md:hidden xl:block xl:w-1/3">
-        <ImageKit src={"postImg.jpeg"} className={"object-cover rounded-2xl"} />
+        <ImageKit
+          src={"postImg.jpeg"}
+          className={"object-cover rounded-2xl"}
+          width={"735"}
+        />
       </div>
       {/* details */}
       <div className="flex flex-col gap-4 xl:w-2/3">

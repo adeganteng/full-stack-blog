@@ -10,6 +10,7 @@ const FeaturedPost = () => {
         <ImageKit
           src={"featured1.jpeg"}
           className={"rounded-3xl object-cover"}
+          width={"895"}
         />
         {/* details */}
         <div className=" flex items-center gap-4">
@@ -57,7 +58,7 @@ const FeaturedPost = () => {
           {/* Image */}
           <ImageKit
             className={"rounded-3xl object-cover w-1/3 aspect-video"}
-            src={"featured2.jpeg"}
+            src={"featured3.jpeg"}
           />
           {/* details and title */}
           <div className="w-2/3 ">
@@ -82,7 +83,7 @@ const FeaturedPost = () => {
           {/* Image */}
           <ImageKit
             className={"rounded-3xl object-cover w-1/3 aspect-video"}
-            src={"featured2.jpeg"}
+            src={"featured1.jpeg"}
           />
           {/* details and title */}
           <div className="w-2/3 ">

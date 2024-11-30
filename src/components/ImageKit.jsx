@@ -14,6 +14,12 @@ const ImageKit = ({ src, className, width, height, alt }) => {
         active: true,
         quality: 20,
       }}
+      transformation={[
+        {
+          width: width,
+          height: height,
+        },
+      ]}
     />
   );
 };
