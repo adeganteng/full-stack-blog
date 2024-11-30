@@ -12,3 +12,23 @@ body {
 .animatedButton {
   animation-duration: 10000ms;
 }
+
+/* Mengatur keseluruhan scroll bar */
+::-webkit-scrollbar {
+  @apply w-2 h-3;
+}
+
+/* Track scroll bar (latar belakang) */
+::-webkit-scrollbar-track {
+  @apply bg-[#e6e6ff] rounded-xl;
+}
+
+/* Thumb scroll bar (pegangan) */
+::-webkit-scrollbar-thumb {
+  @apply bg-blue-500 rounded-xl;
+}
+
+/* Hover pada thumb */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-blue-800;
+}
