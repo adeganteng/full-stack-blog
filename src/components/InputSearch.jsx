@@ -11,7 +11,7 @@ const InputSearch = () => {
         type="text"
         onChange={(e) => setSearchInput(e.target.value)}
         value={searchInput}
-        placeholder="Searc a post..."
+        placeholder="Search a post..."
         className="bg-transparent outline-none"
       />
     </div>

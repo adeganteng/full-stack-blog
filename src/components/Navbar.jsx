@@ -26,7 +26,7 @@ const Navbar = () => {
         <div
           className={`w-full h-screen flex flex-col justify-center gap-8 font-medium text-lg items-center absolute top-16 bg-[#e6e6ff] ${
             open ? "right-0" : "-right-[100%]"
-          } transition-all ease-in-out duration-500`}
+          } transition-all ease-in-out duration-500 z-50`}
         >
           <Link to="/">Home</Link>
           <Link to="/">Trending</Link>
