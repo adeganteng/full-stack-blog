@@ -4,13 +4,33 @@ import postRouter from "./routes/post.route.js";
 import commentRouter from "./routes/comment.route.js";
 import webhookRouter from "./routes/webhook.route.js";
 import { connectDB } from "./lib/connectDB.js";
+import { clerkMiddleware, requireAuth } from "@clerk/express";
 
 const app = express();
+app.use(clerkMiddleware());
 app.use("/webhooks", webhookRouter);
 app.use(express.json());
 
 // app.get("/test", (req, res) => {
 //   res.status(200).json({ message: "Hello World" });
+// });
+
+// app.get("/auth-state", (req, res) => {
+//   const authState = req.auth;
+//   res.json(authState);
+// });
+
+// app.get("/protect", (req, res) => {
+//   const { userId } = req.auth;
+//   if (!userId) {
+//     return res.status(401).json("Not authenticated");
+//   }
+
+//   res.status(200).json("Content");
+// });
+
+// app.get("/protect2", requireAuth(), (req, res) => {
+//   res.status(200).json("Content");
 // });
 
 app.use("/users", userRouter);
