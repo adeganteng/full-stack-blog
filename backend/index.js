@@ -5,14 +5,15 @@ import commentRouter from "./routes/comment.route.js";
 import { connectDB } from "./lib/connectDB.js";
 
 const app = express();
+app.use(express.json());
 
 // app.get("/test", (req, res) => {
 //   res.status(200).json({ message: "Hello World" });
 // });
 
 app.use("/users", userRouter);
-app.use("/users", postRouter);
-app.use("/users", commentRouter);
+app.use("/posts", postRouter);
+app.use("/comments", commentRouter);
 
 app.listen(3000, () => {
   connectDB();
