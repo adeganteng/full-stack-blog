@@ -12,10 +12,10 @@ const PostList = () => {
     queryKey: ["repoData"],
     queryFn: fetchPosts,
   });
-  console.log("data: ", data);
   if (isPending) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
+  console.log("data: ", data);
 
   return (
     <div className="flex flex-col gap-12 mb-8">
