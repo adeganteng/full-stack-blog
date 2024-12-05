@@ -58,16 +58,6 @@ const HomePage = () => {
       <div className="flex flex-col">
         <h1 className="my-8 text-2xl text-gray-600 ">Recent Posts</h1>
         <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
-        <PostList />
       </div>
     </div>
   );

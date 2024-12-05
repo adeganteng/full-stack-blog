@@ -3,9 +3,18 @@ import Posts from "../models/post.model.js";
 import User from "../models/user.model.js";
 
 export const getAllPosts = async (req, res) => {
-  const posts = await Posts.find();
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 2;
 
-  return res.status(200).send(posts);
+  const posts = await Posts.find()
+    .populate("user", "username")
+    .limit(limit)
+    .skip((page - 1) * limit);
+
+  const totalPosts = await Posts.countDocuments();
+  const hasMore = page * limit < totalPosts;
+
+  return res.status(200).send({ posts, hasMore });
 };
 
 export const getSinglePost = async (req, res) => {
