@@ -41,3 +41,29 @@ body {
 .ql-editor {
   border: none !important;
 }
+
+@layer components {
+  .rich-text ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+  }
+  .rich-text ol {
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+  }
+  .rich-text li {
+    margin-bottom: 0.5rem;
+  }
+  .rich-text blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 1rem;
+    color: #555;
+    font-style: italic;
+    margin: 1rem 0;
+  }
+  .rich-text img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+  }
+}

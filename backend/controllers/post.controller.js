@@ -20,7 +20,7 @@ export const getAllPosts = async (req, res) => {
 export const getSinglePost = async (req, res) => {
   const post = await Posts.findOne({
     slug: req.params.slug,
-  });
+  }).populate("user", "username img");
 
   return res.status(200).send(post);
 };

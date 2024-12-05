@@ -1,10 +1,30 @@
 import ImageKit from "../components/ImageKit";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PostMenuActions from "../components/PostMenuActions";
 import InputSearch from "../components/InputSearch";
 import Comments from "../components/Comments";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { format } from "timeago.js";
+import DOMPurify from "dompurify";
+
+const fetchPost = async (slug) => {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts/${slug}`);
+  return res.data;
+};
 
 const SinglePostPage = () => {
+  const { slug } = useParams();
+  const { isPending, error, data } = useQuery({
+    queryKey: ["post", slug],
+    queryFn: () => fetchPost(slug),
+  });
+
+  if (isPending) return `Loading...`;
+  if (error) return `Something went wrong! ${error.message}`;
+  if (!data) return `Data Post Not Found!`;
+
+  const sanitizedContent = DOMPurify.sanitize(data?.content);
   return (
     <div className="flex flex-col py-8 gap-8">
       {/* Details */}
@@ -12,219 +32,58 @@ const SinglePostPage = () => {
         {/* title and author */}
         <div className="lg:w-3/5 flex flex-col gap-8">
           <h1 className="text-xl md:text-3xl xl:text-4xl 2xl:text-5xl  font-semibold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro,
-            quisquam?
+            {data?.title}
           </h1>
           <div className="flex items-center gap-2 text-gray-400 text-sm">
             <span>Written by</span>
-            <Link className="text-blue-800">John Doe</Link>
+            <Link className="text-blue-800">{data?.user?.username}</Link>
             <span>on</span>
-            <Link className="text-blue-800">Web Design</Link>
-            <span>2 days ago</span>
+            <Link className="text-blue-800">{data?.category}</Link>
+            <span>{format(data.createdAt)}</span>
           </div>
-          <p className="text-gray-500 font-medium text-justify">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-            recusandae debitis omnis, illum possimus facilis, dolore voluptas
-            eius unde velit nulla, rerum laboriosam! Eligendi, molestias
-            officiis sapiente magnam culpa eum possimus suscipit similique eius
-            explicabo facilis ipsa voluptates unde aperiam.
-          </p>
+          <p className="text-gray-500 font-medium text-justify">{data.desc}</p>
         </div>
         {/* image */}
         <div className="w-full md:hidden lg:block lg:w-2/5">
-          <ImageKit src={"postImg.jpeg"} className={"rounded-2xl"} />
+          {data.img ? (
+            <ImageKit src={data.img} className={"rounded-2xl"} />
+          ) : (
+            <ImageKit src={"not-foud-img.jpg"} className={"rounded-2xl"} />
+          )}
         </div>
       </div>
       {/* Content */}
       <div className="flex flex-col md:flex-row gap-12">
         {/* text */}
         <div className="lg:text-lg flex flex-col gap-6 text-justify">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Reprehenderit nulla aliquid quisquam nostrum dolorum quo!
-            Repellendus quisquam inventore obcaecati sit cum sint numquam
-            aliquam. Temporibus quia ea reiciendis, blanditiis nisi voluptatum
-            consectetur quos et beatae delectus culpa numquam, deleniti
-            praesentium error pariatur corporis voluptates ratione ex facere
-            amet tempore, quisquam non eligendi perferendis! Fuga, dolores illum
-            praesentium nobis fugiat explicabo?
-          </p>
+          <div
+            className="rich-text"
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+          ></div>
         </div>
         {/* menu */}
         <div className="px-4 h-max sticky top-8">
           <h1 className="mb-4 text-sm font-medium">Author</h1>
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-8">
-              <ImageKit
-                src={"userImg.jpeg"}
-                className={"w-12 h-12 rounded-full object-cover"}
-                width={"48"}
-                height={"48"}
-              />
-              <Link className="text-blue-800">John Doe</Link>
+              {data?.user?.img ? (
+                <img
+                  src={data?.user?.img}
+                  alt=""
+                  className="w-10 h-10 rounded-full border border-blue-800 object-cover"
+                />
+              ) : (
+                <ImageKit
+                  src={"userImg.jpeg"}
+                  className={"w-12 h-12 rounded-full object-cover"}
+                  width={"48"}
+                  height={"48"}
+                />
+              )}
+              <Link className="text-blue-800">{data?.user?.username}</Link>
             </div>
             <p className="text-sm text-gray-500">
-              Lorem ipsum dolor sit amet consectetur.
+              {data?.user?.desc || "I am a guest user"}
             </p>
             <div className="flex gap-2">
               <Link>
