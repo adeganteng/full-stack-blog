@@ -18,12 +18,6 @@ const PostListPage = () => {
       <div className="flex gap-8 max-md:flex-col-reverse">
         <div>
           <PostList />
-          <PostList />
-          <PostList />
-          <PostList />
-          <PostList />
-          <PostList />
-          <PostList />
         </div>
         <div
           className={
