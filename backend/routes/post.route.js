@@ -4,9 +4,13 @@ import {
   getAllPosts,
   getSinglePost,
   deletePost,
+  uploadAuth,
 } from "../controllers/post.controller.js";
 
 const router = express.Router();
+
+// Upload image route
+router.get("/upload-auth", uploadAuth);
 
 // Get All Posts
 router.get("/", getAllPosts);
