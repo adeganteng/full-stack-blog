@@ -20,7 +20,6 @@ export const createPost = async (req, res) => {
   if (!clerkUserId) {
     return res.status(401).json("Not authenticated");
   }
-
   const user = await User.findOne({ clerkUserId });
   if (!user) {
     return res.status(404).json("User not found!");
@@ -40,9 +39,14 @@ export const deletePost = async (req, res) => {
 
   const user = await User.findOne({ clerkUserId });
 
-  const post = await Posts.findByIdAndDelete({
+  const deletePost = await Posts.findByIdAndDelete({
     _id: req.params.id,
     user: user._id,
   });
+
+  if (!deletePost) {
+    return res.status(403).json("You can deleted only your post");
+  }
+
   res.status(200).json("Post has been deleted");
 };
