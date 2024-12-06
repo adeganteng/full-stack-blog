@@ -13,6 +13,15 @@ const SideMenu = () => {
       });
     }
   };
+
+  const handleCategoryChange = (category) => {
+    if (searchParams.get("cat") !== category) {
+      setSearchParams({
+        ...Object.fromEntries(searchParams),
+        cat: category,
+      });
+    }
+  };
   return (
     <div className="px-4 sticky top-8">
       <h1 className="mb-4 text-sm font-medium ">Search</h1>
@@ -64,24 +73,42 @@ const SideMenu = () => {
 
       <h1 className="mb-4 text-sm font-medium mt-8">Category</h1>
       <div className="flex flex-col gap-2 text-sm">
-        <Link className="underline" to={"/post"}>
+        <span
+          className="underline cursor-pointer"
+          onClick={() => handleCategoryChange("")}
+        >
           All
-        </Link>
-        <Link className="underline" to={"/post?cat=web-design"}>
+        </span>
+        <span
+          className="underline cursor-pointer"
+          onClick={() => handleCategoryChange("web-design")}
+        >
           Web Design
-        </Link>
-        <Link className="underline" to={"/post?cat=development"}>
+        </span>
+        <span
+          className="underline cursor-pointer"
+          onClick={() => handleCategoryChange("development")}
+        >
           Development
-        </Link>
-        <Link className="underline" to={"/post?cat=databases"}>
+        </span>
+        <span
+          className="underline cursor-pointer"
+          onClick={() => handleCategoryChange("database")}
+        >
           Databases
-        </Link>
-        <Link className="underline" to={"/post?cat=seo"}>
+        </span>
+        <span
+          className="underline cursor-pointer"
+          onClick={() => handleCategoryChange("seo")}
+        >
           Search Engine
-        </Link>
-        <Link className="underline" to={"/post?cat=marketing"}>
+        </span>
+        <span
+          className="underline cursor-pointer"
+          onClick={() => handleCategoryChange("marketing")}
+        >
           Marketing
-        </Link>
+        </span>
       </div>
     </div>
   );
