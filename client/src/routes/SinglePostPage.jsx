@@ -46,7 +46,10 @@ const SinglePostPage = () => {
         {/* image */}
         <div className="w-full md:hidden lg:block lg:w-2/5">
           {data.img ? (
-            <ImageKit src={data.img} className={"rounded-2xl"} />
+            <ImageKit
+              src={data.img || "not-foud-img.jpg"}
+              className={"rounded-2xl"}
+            />
           ) : (
             <ImageKit src={"not-foud-img.jpg"} className={"rounded-2xl"} />
           )}
@@ -120,7 +123,7 @@ const SinglePostPage = () => {
           <InputSearch />
         </div>
       </div>
-      <Comments />
+      <Comments postId={data._id} />
     </div>
   );
 };
