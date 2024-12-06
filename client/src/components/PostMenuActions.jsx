@@ -1,5 +1,5 @@
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { Bookmark, Loader, LucideTrash2 } from "lucide-react";
+import { Bookmark, Loader, LucideTrash2, Star } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +27,7 @@ const PostMenuActions = ({ post }) => {
     },
   });
 
+  const isAdmin = user?.publicMetadata?.role === "admin" || false;
   const isSaved = savedPosts?.data.some((p) => p === post._id) || false;
 
   const deleteMutation = useMutation({
@@ -83,9 +84,44 @@ const PostMenuActions = ({ post }) => {
     },
   });
 
+  const featureMutation = useMutation({
+    mutationFn: async () => {
+      const token = await getToken();
+      return await axios.patch(
+        `${import.meta.env.VITE_API_URL}/posts/feature`,
+        {
+          postId: post._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["post", post.slug] });
+      if (!post.isFeatured) {
+        toast.success("Post featured successfully", { theme: "dark" });
+      } else {
+        toast.success("Post unfeatured successfully", { theme: "dark" });
+      }
+    },
+    onError: (error) => {
+      toast.error(error.response.data || "Saved post failed", {
+        theme: "dark",
+      });
+    },
+  });
+
   const handleDelete = () => {
     deleteMutation.mutate();
   };
+
+  const handleFeature = () => {
+    featureMutation.mutate();
+  };
+
   const handleSavedPost = () => {
     if (!user) {
       return navigate("/login");
@@ -104,7 +140,7 @@ const PostMenuActions = ({ post }) => {
           className="flex items-center gap-2 py-2 text-sm cursor-pointer"
           onClick={handleSavedPost}
         >
-          <Bookmark size={24} className={`${isSaved && "text-yellow-500"}`} />
+          <Bookmark size={24} fill={isSaved ? "black" : "none"} />
           <span>{isSaved ? "Saved" : "Save this post"}</span>
           {saveMutation.isPending && (
             <span>
@@ -113,7 +149,26 @@ const PostMenuActions = ({ post }) => {
           )}
         </div>
       )}
-      {user && post.user.username === user.username && (
+      {isAdmin && (
+        <div
+          onClick={handleFeature}
+          className="flex items-center gap-2 py-2 text-sm cursor-pointer"
+        >
+          <Star
+            size={24}
+            className={`${post.isFeatured ? "text-transparent" : ""}`}
+            fill={post.isFeatured ? "yellow" : "none"}
+          />
+          <span>
+            {post.isFeatured ? "Unfeature this post" : "Feature this post"}
+          </span>
+
+          {featureMutation.isPending && (
+            <Loader size={18} className="animate-spin" />
+          )}
+        </div>
+      )}
+      {user && (post.user.username === user.username || isAdmin) && (
         <div
           onClick={handleDelete}
           className="flex items-center gap-2 py-2 text-sm cursor-pointer"

@@ -54,7 +54,11 @@ const Comments = ({ postId }) => {
       desc: formData.get("desc"),
     };
 
-    mutation.mutate(data);
+    mutation.mutate(data, {
+      onSuccess: () => {
+        e.target.reset();
+      },
+    });
   };
 
   return (
@@ -97,7 +101,7 @@ const Comments = ({ postId }) => {
 
           {data.length > 0 ? (
             data?.map((comment) => (
-              <Comment key={comment._id} comment={comment} />
+              <Comment key={comment._id} comment={comment} postId={postId} />
             ))
           ) : (
             <div>
