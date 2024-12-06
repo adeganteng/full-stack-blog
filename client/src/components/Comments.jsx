@@ -25,7 +25,6 @@ const Comments = ({ postId }) => {
   const mutation = useMutation({
     mutationFn: async (newComment) => {
       const token = await getToken();
-      console.log(token);
       return axios.post(
         `${import.meta.env.VITE_API_URL}/comments/${postId}`,
         newComment,

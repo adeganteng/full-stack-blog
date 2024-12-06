@@ -2,7 +2,6 @@ import ImageKit from "./ImageKit";
 import { format } from "timeago.js";
 
 const Comment = ({ comment }) => {
-  console.log(comment);
   return (
     <div className="p-4 bg-slate-50 rounded-xl mb-2">
       <div className="flex items-center gap-4">
