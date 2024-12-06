@@ -1,8 +1,18 @@
 import React from "react";
 import InputSearch from "./InputSearch";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const SideMenu = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleFilterChange = (e) => {
+    if (searchParams.get("sort") !== e.target.value) {
+      setSearchParams({
+        ...Object.fromEntries(searchParams),
+        sort: e.target.value,
+      });
+    }
+  };
   return (
     <div className="px-4 sticky top-8">
       <h1 className="mb-4 text-sm font-medium ">Search</h1>
@@ -13,6 +23,7 @@ const SideMenu = () => {
         <label htmlFor="" className="flex items-center gap-2 cursor-pointer">
           <input
             type="radio"
+            onChange={handleFilterChange}
             name="sort"
             value={"newest"}
             className="appearance-none cursor-pointer w-4 h-4 border-[1.5px] border-blue-800 rounded-sm bg-white checked:bg-blue-800 "
@@ -22,6 +33,7 @@ const SideMenu = () => {
         <label htmlFor="" className="flex items-center gap-2 cursor-pointer">
           <input
             type="radio"
+            onChange={handleFilterChange}
             name="sort"
             value={"popular"}
             className="appearance-none cursor-pointer w-4 h-4 border-[1.5px] border-blue-800 rounded-sm bg-white checked:bg-blue-800 "
@@ -31,6 +43,7 @@ const SideMenu = () => {
         <label htmlFor="" className="flex items-center gap-2 cursor-pointer">
           <input
             type="radio"
+            onChange={handleFilterChange}
             name="sort"
             value={"trending"}
             className="appearance-none cursor-pointer w-4 h-4 border-[1.5px] border-blue-800 rounded-sm bg-white checked:bg-blue-800 "
@@ -40,6 +53,7 @@ const SideMenu = () => {
         <label htmlFor="" className="flex items-center gap-2 cursor-pointer">
           <input
             type="radio"
+            onChange={handleFilterChange}
             name="sort"
             value={"oldest"}
             className="appearance-none cursor-pointer w-4 h-4 border-[1.5px] border-blue-800 rounded-sm bg-white checked:bg-blue-800 "
