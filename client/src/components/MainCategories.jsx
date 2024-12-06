@@ -1,6 +1,7 @@
 import { Search } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import InputSearch from "./InputSearch";
 
 const MainCategories = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -47,18 +48,7 @@ const MainCategories = () => {
       </div>
       <span className="text-xl font-medium">|</span>
       {/* search */}
-      <div className="bg-gray-100 p-2 rounded-full flex items-center gap-2">
-        <Search
-          size={20}
-          className={`text-gray-400 ${searchInput && "hidden"}`}
-        />
-        <input
-          onChange={(e) => setSearchInput(e.target.value)}
-          type="text"
-          placeholder="Search a post..."
-          className="bg-transparent outline-none"
-        />
-      </div>
+      <InputSearch />
     </div>
   );
 };

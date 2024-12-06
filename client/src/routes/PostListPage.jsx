@@ -16,7 +16,7 @@ const PostListPage = () => {
       </button>
 
       <div className="flex gap-8 max-md:flex-col-reverse">
-        <div>
+        <div className="flex-1">
           <PostList />
         </div>
         <div
